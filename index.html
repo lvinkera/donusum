@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#050508">
+<title>DÖNÜŞÜM</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#050508;--card:#0a0a10;--card2:#0e0e16;--border:#161620;--border2:#1c1c28;--white:#f0f0f5;--dim:#666;--dim2:#444;--dim3:#2a2a36;--red:#ff2d55;--green:#30d158;--yellow:#ffd60a;--purple:#bf5af2;--blue:#0a84ff;--orange:#ff9f0a;--pink:#ff375f;--teal:#64d2ff;--font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--white);font-family:var(--font);min-height:100vh;min-height:100dvh;overflow-x:hidden}
+body{max-width:500px;margin:0 auto;padding-bottom:env(safe-area-inset-bottom)}
+.ambient{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;pointer-events:none;z-index:0;opacity:.5;transition:background 1s;filter:blur(80px)}
+.grain{position:fixed;top:0;left:0;right:0;bottom:0;opacity:.035;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1}
+.hdr{padding:32px 24px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.hdr-day{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--dim);font-weight:500}
+.hdr-num{font-size:72px;font-weight:200;line-height:1;margin-top:2px;letter-spacing:-4px;background:linear-gradient(180deg,#fff 40%,#333 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-of{font-size:13px;color:var(--dim3);font-weight:300;margin-left:2px;letter-spacing:1px}
+.ring-wrap{position:relative;width:58px;height:58px;margin-top:8px}
+.ring-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;font-weight:600;font-family:var(--mono)}
+.qt{margin:20px 24px;padding:12px 16px;font-size:11px;color:var(--dim);letter-spacing:.8px;font-weight:300;border-left:1.5px solid var(--dim3);transition:opacity .5s}
+.nav{display:flex;margin:4px 24px 0;background:var(--card);border-radius:14px;padding:3px;border:1px solid var(--border)}
+.nav-btn{flex:1;padding:11px 0;font-size:11px;font-weight:500;color:var(--dim2);background:0;border:0;border-radius:12px;cursor:pointer;font-family:var(--font);letter-spacing:1.5px;transition:all .3s}
+.nav-btn.on{color:#fff;background:var(--card2);box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.cnt{padding:20px 24px 48px}
+.mc{border-radius:22px;overflow:hidden;border:1px solid var(--border)}
+.mc-top{padding:28px 24px 22px;position:relative;overflow:hidden}
+.mc-type{font-size:10px;letter-spacing:5px;text-transform:uppercase;font-weight:600;opacity:.8;color:rgba(255,255,255,.9)}
+.mc-title{font-size:40px;font-weight:800;margin-top:6px;letter-spacing:-1.5px;line-height:1;color:#fff}
+.mc-sub{font-size:13px;opacity:.6;margin-top:6px;font-weight:300;letter-spacing:.5px;color:rgba(255,255,255,.6)}
+.mc-body{background:var(--card);padding:4px 0}
+.mc-task{display:flex;align-items:center;gap:14px;padding:13px 24px;position:relative}
+.mc-task::after{content:'';position:absolute;bottom:0;left:24px;right:24px;height:1px;background:var(--border)}
+.mc-task:last-child::after{display:none}
+.mc-dot{width:4px;height:4px;border-radius:50%;opacity:.5;flex-shrink:0}
+.mc-txt{font-size:13.5px;color:#888;font-weight:400;letter-spacing:.3px}
+.ic{margin-top:14px;padding:18px 20px;background:var(--card);border-radius:18px;border:1px solid var(--border)}
+.ic-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--dim2);font-weight:600}
+.ic-row{display:flex;align-items:center;gap:14px;margin-top:10px}
+.ic-badge{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.fin-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:10px}
+.fin-big{font-size:26px;font-weight:700;font-family:var(--mono);letter-spacing:-1px}
+.rt{display:flex;gap:14px;padding:12px 14px;border-radius:14px;position:relative;margin-bottom:1px;transition:background .3s}
+.rt.now{background:rgba(255,45,85,.04)}
+.rt.past{opacity:.2}
+.rt-bar{position:absolute;left:0;top:50%;transform:translateY(-50%);width:2.5px;height:22px;border-radius:2px}
+.rt-time{font-size:12.5px;min-width:44px;font-family:var(--mono);font-weight:400;letter-spacing:.5px}
+.rt-task{font-size:12.5px;flex:1;font-weight:400}
+.rt-dot{width:5px;height:5px;border-radius:50%;align-self:center}
+.legend{display:flex;gap:18px;justify-content:center;margin-top:24px}
+.legend span{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--dim2);letter-spacing:1px}
+.legend i{width:5px;height:5px;border-radius:50%;display:block}
+.pbar{height:2px;background:var(--border);border-radius:2px;margin-bottom:24px;overflow:hidden}
+.pfill{height:100%;border-radius:2px;transition:width .5s}
+.chk{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:7px;cursor:pointer;transition:all .3s;text-align:left;color:inherit;font-family:var(--font)}
+.chk.on{background:rgba(48,209,88,.03);border-color:rgba(48,209,88,.12)}
+.chk-box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--dim3);display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.chk.on .chk-box{border:0;background:var(--green)}
+.chk-label{font-size:13.5px;color:#666;font-weight:400;transition:all .2s}
+.chk.on .chk-label{color:var(--green);font-weight:500}
+.done{margin-top:24px;text-align:center;padding:24px;background:rgba(48,209,88,.04);border-radius:18px;border:1px solid rgba(48,209,88,.08)}
+.tl{position:relative;padding-left:30px}
+.tl-line{position:absolute;left:7px;top:6px;bottom:6px;width:1px;background:var(--border)}
+.tl-item{position:relative;padding-bottom:32px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-26px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .4s}
+.tl-dot.on{width:12px;height:12px;left:-28px;top:1px}
+.tl-dot.dn{background:var(--green)}
+.fin-card{margin-top:36px;padding:22px;background:var(--card);border-radius:20px;border:1px solid var(--border)}
+.fin-line{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.fin-line.tot{padding-top:12px;margin-top:8px;border-top:1px solid var(--border)}
+.fin-badge{margin-top:18px;padding:14px;background:rgba(48,209,88,.04);border-radius:12px;text-align:center;font-size:11px;color:var(--green);font-weight:600;letter-spacing:2px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeUp .4s ease forwards}
+</style>
+</head>
+<body>
+<div class="ambient" id="amb"></div>
+<div class="grain"></div>
+<div class="wrap" id="app"></div>
+<script>
+const D=["Bazar","Bazar ertəsi","Çərşənbə axşamı","Çərşənbə","Cümə axşamı","Cümə","Şənbə"],
+P={1:{title:"PUSH",sub:"Göğüs · Omuz · Triceps",color:"#ff2d55",grad:"linear-gradient(140deg,#ff2d55,#ff6482)",type:"ANTRENMAN",tasks:["Bench Press — 4×8-12","Overhead Press — 4×8-12","Dumbbell Fly — 4×8-12","Lateral Raise — 4×8-12","Tricep Pushdown — 4×8-12"]},2:{title:"SERBEST",sub:"Hobi · Dizi · Kitap",color:"#30d158",grad:"linear-gradient(140deg,#30d158,#4ae879)",type:"DİNLENME",tasks:["Bilinçli vakit geçir","Telefon scroll yasak","Dizi / kitap / oyun"]},3:{title:"PULL",sub:"Sırt · Biceps",color:"#ff2d55",grad:"linear-gradient(140deg,#ff2d55,#ff6482)",type:"ANTRENMAN",tasks:["Deadlift — 4×8-12","Barbell Row — 4×8-12","Lat Pulldown — 4×8-12","Face Pull — 4×8-12","Barbell Curl — 4×8-12"]},4:{title:"SOSYAL",sub:"Dışarı çık · İnsan gör",color:"#ffd60a",grad:"linear-gradient(140deg,#ffd60a,#ffe666)",type:"AKTİVİTE",tasks:["Biriyle görüş","Yeni mekana git","Evde kalma"]},5:{title:"LEGS",sub:"Bacak · Alt Vücut",color:"#ff2d55",grad:"linear-gradient(140deg,#ff2d55,#ff6482)",type:"ANTRENMAN",tasks:["Squat — 4×8-12","Leg Press — 4×8-12","Romanian Deadlift — 4×8-12","Leg Curl — 4×8-12","Calf Raise — 4×8-12"]},6:{title:"BAKIM",sub:"Outdoor · Berber · Keşif",color:"#bf5af2",grad:"linear-gradient(140deg,#bf5af2,#d68fff)",type:"BAKIM",tasks:["Evden çık","Berber / cilt bakımı","Kıyafet alışverişi"]},0:{title:"HAZIRLIK",sub:"Dinlen · Planla",color:"#636370",grad:"linear-gradient(140deg,#636370,#8e8e9b)",type:"HAZIRLIK",tasks:["Meal prep","Tracker doldur","Haftaya hazırlan"]}},
+R=[{t:"07:00",task:"Uyan · yüz yıka · nemlendirici",c:"m"},{t:"07:15",task:"Kahvaltı — yumurta, yulaf, muz",c:"f"},{t:"11:00",task:"Shake #1 — süt, muz, yulaf, fıstık ezmesi",c:"f"},{t:"13:30",task:"Öğle — et, pilav, salata, zeytinyağı",c:"f"},{t:"17:00",task:"Atıştırmalık — muz, badem",c:"f"},{t:"17:30",task:"GYM veya günün aktivitesi",c:"g"},{t:"19:00",task:"Shake #2 — süt, protein, muz, yulaf",c:"f"},{t:"20:30",task:"Akşam yemeği",c:"f"},{t:"22:00",task:"Cilt bakımı",c:"n"},{t:"22:30",task:"Telefonu başka odaya koy",c:"n"},{t:"23:00",task:"Uyku — minimum 7 saat",c:"n"}],
+MO=[{t:"TEMEL",d:"Gym + Beslenme + Berber",c:"#ff2d55"},{t:"STİL",d:"Kıyafet + Parfüm + Aksesuar",c:"#ff9f0a"},{t:"SOSYAL",d:"Hobi + Yeni insanlar",c:"#30d158"},{t:"İMAJ",d:"Instagram yenile",c:"#bf5af2"},{t:"GENİŞLE",d:"Etkinlikler + Çevre",c:"#ff375f"},{t:"KARAR",d:"Aynaya bak",c:"#0a84ff"}],
+CK=["Gym / Aktivite","2 Shake","Tüm öğünler","3L su","Porno yok","7+ saat uyku","Bakım"],
+QT=["Kötü antrenman > sıfır antrenman.","6/10 yeterli. Mükemmel arama.","5-4-3-2-1 — düşünme, yap.","Zinciri kırma.","Bozduğun yerden devam et.","Alarm çaldı = ye.","Tek rakibin dünkü kendin.","Kötü versiyonunu yap. Ama yap."],
+CC={m:"#64d2ff",f:"#ffd60a",g:"#ff2d55",n:"#bf5af2"};
+let tab="today",chk={},qi=0;
+const now=new Date(),dow=now.getDay(),plan=P[dow],start=new Date(2026,2,8),dn=Math.max(1,Math.floor((now-start)/864e5)+1),cm=Math.min(6,Math.floor((dn-1)/30)+1),hr=now.getHours(),mn=now.getMinutes();
+let ci=-1;for(let i=R.length-1;i>=0;i--){const[h,m]=R[i].t.split(":").map(Number);if(hr>h||(hr===h&&mn>=m)){ci=i;break}}
+document.getElementById("amb").style.background=`radial-gradient(circle,${plan.color}18 0%,transparent 70%)`;
+function gp(){return Math.round(Object.values(chk).filter(Boolean).length/CK.length*100)}
+function render(){const p=gp();let h=`<div class="hdr"><div><div class="hdr-day">${D[dow]}</div><div style="display:flex;align-items:baseline"><span class="hdr-num">${dn}</span><span class="hdr-of">/ 180</span></div></div><div class="ring-wrap"><svg width="58" height="58" viewBox="0 0 58 58"><circle cx="29" cy="29" r="23" fill="none" stroke="var(--border)" stroke-width="2.5"/><circle cx="29" cy="29" r="23" fill="none" stroke="${plan.color}" stroke-width="2.5" stroke-dasharray="${p/100*144.5} 144.5" stroke-linecap="round" transform="rotate(-90 29 29)" style="transition:stroke-dasharray .6s"/></svg><div class="ring-val" style="color:${plan.color}">${p}</div></div></div><div class="qt" id="qt">"${QT[qi]}"</div><div class="nav"><button class="nav-btn ${tab==='today'?'on':''}" onclick="st('today')">BUGÜN</button><button class="nav-btn ${tab==='time'?'on':''}" onclick="st('time')">SAAT</button><button class="nav-btn ${tab==='check'?'on':''}" onclick="st('check')">TAKİP</button><button class="nav-btn ${tab==='road'?'on':''}" onclick="st('road')">YOL</button></div><div class="cnt fade">`;
+if(tab==="today"){h+=`<div class="mc"><div class="mc-top" style="background:${plan.grad}"><div class="mc-type">${plan.type}</div><div class="mc-title">${plan.title}</div><div class="mc-sub">${plan.sub}</div></div><div class="mc-body">${plan.tasks.map(t=>`<div class="mc-task"><div class="mc-dot" style="background:${plan.color}"></div><span class="mc-txt">${t}</span></div>`).join("")}</div></div><div class="ic"><div class="ic-row"><div class="ic-badge" style="background:${MO[cm-1].c}15;border:1px solid ${MO[cm-1].c}30;color:${MO[cm-1].c}">${cm}</div><div><div class="ic-label">Bu Ayın Odağı</div><div style="font-size:14px;font-weight:600;color:#ccc;margin-top:4px">${MO[cm-1].t}</div><div style="font-size:11px;color:var(--dim);margin-top:2px">${MO[cm-1].d}</div></div></div></div><div class="ic"><div class="ic-label">FİNANS</div><div class="fin-row"><div><div class="fin-big" style="color:var(--green)">70,000<span style="font-size:14px;font-weight:400;opacity:.6"> ₼</span></div><div style="font-size:11px;color:var(--dim2);margin-top:3px">Yıl sonu hedefi</div></div><div style="text-align:right"><div style="font-size:11px;color:var(--dim)">Aylık kalan</div><div style="font-size:20px;font-weight:600;color:#888;font-family:var(--mono);margin-top:2px">900 ₼</div></div></div></div>`}
+if(tab==="time"){h+=R.map((r,i)=>{const cur=i===ci,past=i<ci;return`<div class="rt ${cur?'now':''} ${past?'past':''}">${cur?`<div class="rt-bar" style="background:${CC[r.c]}"></div>`:''}<div class="rt-time" style="color:${cur?CC[r.c]:'var(--dim3)'}${cur?';font-weight:600':''}">${r.t}</div><div class="rt-task" style="color:${cur?'#ddd':'var(--dim)'}${cur?';font-weight:500':''}">${r.task}</div><div class="rt-dot" style="background:${CC[r.c]};opacity:${cur?1:.15}"></div></div>`}).join("")+`<div class="legend"><span><i style="background:${CC.m}"></i>Sabah</span><span><i style="background:${CC.f}"></i>Yemek</span><span><i style="background:${CC.g}"></i>Gym</span><span><i style="background:${CC.n}"></i>Gece</span></div>`}
+if(tab==="check"){h+=`<div class="pbar"><div class="pfill" style="width:${p}%;background:${p===100?'var(--green)':plan.color}"></div></div>`;h+=CK.map((c,i)=>{const on=!!chk[i];return`<button class="chk ${on?'on':''}" onclick="tc(${i})"><div class="chk-box">${on?`<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}</div><span class="chk-label">${c}</span></button>`}).join("");if(p===100)h+=`<div class="done"><div style="font-size:24px;opacity:.6;margin-bottom:8px">✦</div><div style="font-size:13px;font-weight:600;color:var(--green);letter-spacing:1px">TAMAM. YARIN DEVAM.</div></div>`}
+if(tab==="road"){h+=`<div class="tl"><div class="tl-line"></div>${MO.map((m,i)=>{const on=i+1===cm,past=i+1<cm;return`<div class="tl-item"><div class="tl-dot ${on?'on':''} ${past?'dn':''}" style="${on?`background:${m.c};box-shadow:0 0 20px ${m.c}44;border:2px solid ${m.c}`:''}"></div><div style="opacity:${past?.3:1}"><div style="font-size:10px;letter-spacing:4px;font-weight:600;color:${on?m.c:'var(--dim2)'}">AY ${i+1}${on?' ‹ ŞU AN':''}</div><div style="font-size:20px;font-weight:700;margin-top:4px;letter-spacing:-.5px;color:${on?'#fff':'var(--dim)'}">${m.t}</div><div style="font-size:11.5px;margin-top:3px;font-weight:300;color:${on?'#888':'var(--dim3)'}">${m.d}</div></div></div>`}).join("")}</div><div class="fin-card"><div class="ic-label" style="margin-bottom:16px">YIL SONU HEDEFİ</div><div class="fin-line"><span style="font-size:12px;color:var(--dim)">Ev satışı</span><span style="font-size:14px;font-weight:500;color:var(--green);font-family:var(--mono)">+105,000 ₼</span></div><div class="fin-line"><span style="font-size:12px;color:var(--dim)">Borç kapatma</span><span style="font-size:14px;font-weight:500;color:var(--red);font-family:var(--mono)">−35,000 ₼</span></div><div class="fin-line tot"><span style="font-size:12px;color:var(--dim)">Kalan</span><span style="font-size:22px;font-weight:700;color:#fff;font-family:var(--mono)">70,000 ₼</span></div><div class="fin-badge">2027 → BORÇSUZ · EV SAHİBİ · ARABALI</div></div>`}
+h+=`</div>`;document.getElementById("app").innerHTML=h}
+function st(t){tab=t;render()}
+function tc(i){chk[i]=!chk[i];render()}
+setInterval(()=>{qi=(qi+1)%QT.length;const q=document.getElementById("qt");if(q){q.style.opacity=0;setTimeout(()=>{q.textContent='"'+QT[qi]+'"';q.style.opacity=1},400)}},5000);
+render();
+</script>
+</body>
+</html>
